@@ -1,4 +1,4 @@
-import { Mutation, Resolver, Query } from '@nestjs/graphql';
+import { Mutation, Resolver, Query, Args } from '@nestjs/graphql';
 import { AuthorsEntity } from './authors.entity';
 import { AuthorDto } from './dto/author-dto';
 import { AuthorsService } from './authors.service';
@@ -10,27 +10,38 @@ export class AuthorsResolver {
   ) {};
 
   @Query()
-  async getAuthor(obj: string, args: {id: number}): Promise<AuthorsEntity> {
-    return this.authorsService.findOne(args.id);
+  async getAuthor(
+    @Args('id') id: number
+  ): Promise<AuthorsEntity> {
+    return this.authorsService.findOne(id);
   }
 
   @Query()
-  async getAuthors(obj: string, args: {minNumberOfBooks: number, maxNumberOfBooks: number}): Promise<AuthorsEntity[]> {
-    return this.authorsService.findAll(args.minNumberOfBooks, args.maxNumberOfBooks);
+  async getAuthors(
+    @Args('minNumberOfBooks') minNumberOfBooks: number,
+    @Args('maxNumberOfBooks') maxNumberOfBooks: number
+  ): Promise<AuthorsEntity[]> {
+    return this.authorsService.findAll(minNumberOfBooks, maxNumberOfBooks);
   }
 
   @Mutation()
-  async createAuthor(obj: string, args: {author: AuthorDto}): Promise<AuthorsEntity> {
-    return this.authorsService.insert(args.author);
+  async createAuthor(
+    @Args('author') author: AuthorDto
+  ): Promise<AuthorsEntity> {
+    return this.authorsService.insert(author);
   }
 
   @Mutation()
-  async deleteAuthor(obj: string, args: {id: number}): Promise<number> {
-    return this.authorsService.delete(args.id);
+  async deleteAuthor(
+    @Args('id') id: number
+  ): Promise<number> {
+    return this.authorsService.delete(id);
   }
 
   @Mutation()
-  async deleteAuthorWithBooks(obj: string, args: {id: number}): Promise<number> {
-    return this.authorsService.deleteAuthorWithBooks(args.id);
+  async deleteAuthorWithBooks(
+    @Args('id') id: number
+  ): Promise<number> {
+    return this.authorsService.deleteAuthorWithBooks(id);
   }
 }
