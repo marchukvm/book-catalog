@@ -18,7 +18,7 @@ export class Book {
   @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @Field(type => Author)
+  @Field(type => [Author])
   @ManyToMany((type) => Author, (c) => c.books, {
     onDelete: 'CASCADE'
   })

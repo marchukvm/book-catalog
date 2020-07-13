@@ -1,4 +1,4 @@
-import { Mutation, Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Mutation, Resolver, Query, Args, Int, Field, ID } from '@nestjs/graphql';
 import { Author } from './author.entity';
 import { AuthorDto } from './dto/author-dto';
 import { AuthorService } from './author.service';
@@ -12,15 +12,15 @@ export class AuthorResolver {
 
   @Query(returns => Author!)
   async getAuthor(
-    @Args('id') id: number
+    @Args('id', { type: () => ID }) id: number
   ): Promise<Author> {
     return this.authorsService.findOne(id);
   }
 
   @Query(returns => [Author!]!)
   async getAuthors(
-    @Args('minNumberOfBooks') minNumberOfBooks: number,
-    @Args('maxNumberOfBooks') maxNumberOfBooks: number
+    @Args('minNumberOfBooks',  { type: () => Int, nullable: true }) minNumberOfBooks?: number,
+    @Args('maxNumberOfBooks',  { type: () => Int, nullable: true }) maxNumberOfBooks?: number
   ): Promise<Author[]> {
     return this.authorsService.findAll(minNumberOfBooks, maxNumberOfBooks);
   }
@@ -34,14 +34,14 @@ export class AuthorResolver {
 
   @Mutation(returns => Int!)
   async deleteAuthor(
-    @Args('id') id: number
+    @Args('id',  { type: () => ID }) id: number
   ): Promise<number> {
     return this.authorsService.delete(id);
   }
 
   @Mutation(returns => Int!)
   async deleteAuthorWithBooks(
-    @Args('id') id: number
+    @Args('id',  { type: () => ID }) id: number
   ): Promise<number> {
     return this.authorsService.deleteAuthorWithBooks(id);
   }

@@ -28,6 +28,6 @@ export class Author {
     eager: true
   })
   @JoinTable()
-  @Field(type => Book)
+  @Field(type => [Book])
   books: Book[];
 }
