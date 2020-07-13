@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthorEntity } from './author.entity';
+import { Author } from './author.entity';
 import { DeleteResult, Repository, Between, MoreThan } from 'typeorm';
 import { AuthorDto } from './dto/author-dto';
-import { BookEntity } from '../book/book.entity';
+import { Book } from '../book/book.entity';
 
 @Injectable()
 export class AuthorService {
   constructor(
-    @InjectRepository(AuthorEntity)
-    private readonly authorsRepository: Repository<AuthorEntity>,
-    @InjectRepository(BookEntity)
-    private readonly bookRepository: Repository<BookEntity>
+    @InjectRepository(Author)
+    private readonly authorsRepository: Repository<Author>,
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>
   ) {}
 
-  async findOne(id: number): Promise<AuthorEntity> {
+  async findOne(id: number): Promise<Author> {
     try {
       return await this.authorsRepository.findOne(id);
     } catch (err) {
@@ -22,7 +22,7 @@ export class AuthorService {
     }
   }
 
-  async findAll(minNumberOfBooks: number, maxNumberOfBooks: number): Promise<AuthorEntity[]> {
+  async findAll(minNumberOfBooks: number, maxNumberOfBooks: number): Promise<Author[]> {
     try {
       const authors = await this.authorsRepository.find();
       return authors.filter(author =>
@@ -34,9 +34,9 @@ export class AuthorService {
     }
   }
 
-  async insert(author: AuthorDto): Promise<AuthorEntity> {
+  async insert(author: AuthorDto): Promise<Author> {
     try {
-      const newAuthor = new AuthorEntity(author.firstName, author.lastName);
+      const newAuthor = new Author(author.firstName, author.lastName);
       return await this.authorsRepository.save(newAuthor);
     } catch (err) {
       return err;

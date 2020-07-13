@@ -1,6 +1,6 @@
-import { BookEntity } from "./book.entity";
+import { Book } from "./book.entity";
 import { BookService } from "./book.service";
-import { Query, Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Query, Resolver, Mutation, Args, Int } from '@nestjs/graphql';
 import { BookDto } from './dto/book-dto';
 
 @Resolver('Books')
@@ -9,36 +9,36 @@ export class BookResolver {
     private readonly booksService: BookService,
   ) {};
 
-  @Query()
+  @Query(returns => Book!)
   async getBook(
     @Args('id') id: number
-  ): Promise<BookEntity> {
+  ): Promise<Book> {
     return await this.booksService.findOne(id);
   }
 
-  @Query()
+  @Query(returns => [Book!])
   async getBooks(
     @Args('title') title: string
-  ): Promise<BookEntity[]> {
+  ): Promise<Book[]> {
     return this.booksService.findAll(title);
   }
 
-  @Mutation()
+  @Mutation(returns => Book!)
   async createBook(
     @Args('book') book: BookDto
-  ): Promise<BookEntity> {
+  ): Promise<Book> {
     return this.booksService.insert(book);
   }
 
-  @Mutation()
+  @Mutation(returns => Book!)
   async addAuthor(
     @Args('bookId') bookId: number,
     @Args('authorId') authorId: number
-  ): Promise<BookEntity> {
+  ): Promise<Book> {
     return this.booksService.addAuthor(bookId, authorId);
   }
 
-  @Mutation()
+  @Mutation(returns => Int!)
   async deleteBook(
     @Args('id') id: number
   ): Promise<number> {

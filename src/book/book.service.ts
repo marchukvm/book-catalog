@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Like, Repository } from 'typeorm';
-import { BookEntity } from './book.entity';
+import { Book } from './book.entity';
 import { BookDto } from './dto/book-dto';
-import { AuthorEntity } from '../author/author.entity';
+import { Author } from '../author/author.entity';
 
 @Injectable()
 export class BookService {
 
   constructor(
-    @InjectRepository(BookEntity)
-    private readonly bookRepository: Repository<BookEntity>,
-    @InjectRepository(AuthorEntity)
-    private readonly authorsRepository: Repository<AuthorEntity>
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>,
+    @InjectRepository(Author)
+    private readonly authorsRepository: Repository<Author>
   ) {}
 
-  async findOne(id: number): Promise<BookEntity> {
+  async findOne(id: number): Promise<Book> {
     try {
       return await this.bookRepository.findOne(id);
     } catch (err) {
@@ -23,7 +23,7 @@ export class BookService {
     }
   }
 
-  async findAll(title: string): Promise<BookEntity[]> {
+  async findAll(title: string): Promise<Book[]> {
     try {
       return await this.bookRepository.find({
         relations: ["authors"],
@@ -36,17 +36,17 @@ export class BookService {
     }
   }
 
-  async insert(book: BookDto): Promise<BookEntity> {
+  async insert(book: BookDto): Promise<Book> {
     try {
       const authors = await this.authorsRepository.findByIds(book.authorIds);
-      const newBook = new BookEntity(book.title, authors);
+      const newBook = new Book(book.title, authors);
       return await this.bookRepository.save(newBook, {});
     } catch (err) {
       return err;
     }
   }
 
-  async addAuthor(bookId: number, authorId: number): Promise<BookEntity> {
+  async addAuthor(bookId: number, authorId: number): Promise<Book> {
     try {
       const author = await this.authorsRepository.findOne(authorId);
       const book = await this.bookRepository.findOne(bookId, { relations: ["authors"] });

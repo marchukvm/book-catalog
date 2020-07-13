@@ -5,8 +5,8 @@ import { BookModule } from './book/book.module';
 import { AuthorModule } from './author/author.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BookEntity } from './book/book.entity';
-import { AuthorEntity } from './author/author.entity';
+import { Book } from './book/book.entity';
+import { Author } from './author/author.entity';
 
 @Module({
   imports: [
@@ -19,11 +19,12 @@ import { AuthorEntity } from './author/author.entity';
       username: process.env.MYSQL_USER || "root",
       password: process.env.MYSQL_PASSWORD || "rootpw",
       database: process.env.MYSQL_DATABASE || 'books-catalog',
-      entities: [BookEntity, AuthorEntity],
+      entities: [Book, Author],
       synchronize: true,
     }),
     GraphQLModule.forRoot({
-      typePaths: ['./**/**/*.graphql'],
+      autoSchemaFile: './schema.gql',
+      playground: true,
       path: '/'
     }
   )],

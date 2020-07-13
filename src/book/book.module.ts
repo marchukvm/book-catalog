@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { BookService } from './book.service';
 import { BookResolver } from './book.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BookEntity } from './book.entity';
-import { AuthorEntity } from '../author/author.entity';
+import { Book } from './book.entity';
+import { Author } from '../author/author.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([BookEntity, AuthorEntity]),
+    TypeOrmModule.forFeature([Book, Author]),
   ],
   controllers: [],
   providers: [BookService, BookResolver]

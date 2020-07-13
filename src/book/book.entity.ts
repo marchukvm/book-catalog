@@ -1,21 +1,27 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import {AuthorEntity} from '../author/author.entity'
+import {Author} from '../author/author.entity'
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @Entity()
-export class BookEntity {
-  @PrimaryGeneratedColumn() id: number;
+@ObjectType()
+export class Book {
+  @Field(type => Int)
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  constructor(title: string, authors: AuthorEntity[]) {
+  constructor(title: string, authors: Author[]) {
     this.title = title;
     this.authors = authors;
   }
 
+  @Field(type => String)
   @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @ManyToMany((type) => AuthorEntity, (c) => c.books, {
+  @Field(type => Author)
+  @ManyToMany((type) => Author, (c) => c.books, {
     onDelete: 'CASCADE'
   })
   @JoinTable()
-  authors: AuthorEntity[];
+  authors: Author[];
 }
