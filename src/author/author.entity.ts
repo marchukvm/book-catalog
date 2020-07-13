@@ -16,11 +16,11 @@ export class Author {
   }
 
   @Column({ type: 'varchar', length: 255, nullable: false })
-  @Field(type => String)
+  @Field(type => String, { complexity: 1 })
   firstName: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
-  @Field(type => String)
+  @Field(type => String, { complexity: 1 })
   lastName: string;
 
   @ManyToMany((type) => Book, (c) => c.authors, {
@@ -28,6 +28,6 @@ export class Author {
     eager: true
   })
   @JoinTable()
-  @Field(type => [Book])
+  @Field(type => [Book], { complexity: 1 })
   books: Book[];
 }
