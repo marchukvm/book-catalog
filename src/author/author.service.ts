@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from './entity/author';
-import { DeleteResult, Repository, Between, MoreThan } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { AuthorDto } from './dto/author-dto';
 import { Book } from '../book/entity/book';
 
@@ -27,7 +27,7 @@ export class AuthorService {
       const authors = await this.authorsRepository.find();
       return authors.filter(author =>
         author.books.length >= (minNumberOfBooks || 0) &&
-        author.books.length <= (maxNumberOfBooks > 0 ? maxNumberOfBooks : Number.POSITIVE_INFINITY)
+        author.books.length <= (maxNumberOfBooks >= 0 ? maxNumberOfBooks : Number.POSITIVE_INFINITY)
       );
     } catch (err) {
       return err;

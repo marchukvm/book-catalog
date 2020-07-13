@@ -13,7 +13,7 @@ import { Author } from './author/entity/author';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST || "localhost",
-      port: Number(process.env.MYSQL_PORT) || 6000,
+      port: Number(process.env.MYSQL_PORT) || 6001,
       username: process.env.MYSQL_USER || "root",
       password: process.env.MYSQL_PASSWORD || "rootpw",
       database: process.env.MYSQL_DATABASE || 'books-catalog',
