@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Like, Repository } from 'typeorm';
-import { Book } from './book.entity';
+import { Book } from './entity/book';
 import { BookDto } from './dto/book-dto';
-import { Author } from '../author/author.entity';
+import { Author } from '../author/entity/author';
 
 @Injectable()
 export class BookService {

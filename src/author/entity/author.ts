@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable} from 'typeorm';
-import { Book } from '../book/book.entity'
+import { Book } from '../../book/entity/book'
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 

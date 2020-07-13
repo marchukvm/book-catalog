@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { BookModule } from './book/book.module';
 import { AuthorModule } from './author/author.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Book } from './book/book.entity';
-import { Author } from './author/author.entity';
+import { Book } from './book/entity/book';
+import { Author } from './author/entity/author';
 
 @Module({
   imports: [
@@ -23,12 +21,12 @@ import { Author } from './author/author.entity';
       synchronize: true,
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: './schema.gql',
+      autoSchemaFile: './src/schema.gql',
       playground: true,
       path: '/'
     }
   )],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

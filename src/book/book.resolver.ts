@@ -1,4 +1,4 @@
-import { Book } from "./book.entity";
+import { Book } from "./entity/book";
 import { BookService } from "./book.service";
 import { Query, Resolver, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { BookDto } from './dto/book-dto';

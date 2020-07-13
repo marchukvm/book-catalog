@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable} from 'typeorm';
-import {Author} from '../author/author.entity'
+import {Author} from '../../author/entity/author'
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @Entity()

@@ -1,8 +1,8 @@
 import { Mutation, Resolver, Query, Args, Int, Field, ID } from '@nestjs/graphql';
-import { Author } from './author.entity';
+import { Author } from './entity/author';
 import { AuthorDto } from './dto/author-dto';
 import { AuthorService } from './author.service';
-import { Book } from '../book/book.entity';
+import { Book } from '../book/entity/book';
 
 @Resolver('Authors')
 export class AuthorResolver {

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Author } from './author.entity';
+import { Author } from './entity/author';
 import { AuthorResolver } from './author.resolver';
-import { Book } from '../book/book.entity';
+import { Book } from '../book/entity/book';
 
 @Module({
   imports: [
