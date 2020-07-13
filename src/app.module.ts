@@ -13,7 +13,7 @@ import { Author } from './author/entity/author';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST || "localhost",
-      port: 6001,
+      port: Number(process.env.MYSQL_PORT) || 6000,
       username: process.env.MYSQL_USER || "root",
       password: process.env.MYSQL_PASSWORD || "rootpw",
       database: process.env.MYSQL_DATABASE || 'books-catalog',
@@ -21,11 +21,11 @@ import { Author } from './author/entity/author';
       synchronize: true,
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: './src/schema.gql',
-      playground: true,
-      path: '/'
-    }
-  )],
+        autoSchemaFile: './src/schema.gql',
+        playground: true,
+        path: '/'
+      }
+    )],
   controllers: [],
   providers: [],
 })
