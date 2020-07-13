@@ -1,11 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import {AuthorsEntity} from '../authors/authors.entity'
+import {AuthorEntity} from '../author/author.entity'
 
 @Entity()
-export class BooksEntity {
+export class BookEntity {
   @PrimaryGeneratedColumn() id: number;
 
-  constructor(title: string, authors: AuthorsEntity[]) {
+  constructor(title: string, authors: AuthorEntity[]) {
     this.title = title;
     this.authors = authors;
   }
@@ -13,7 +13,9 @@ export class BooksEntity {
   @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @ManyToMany((type) => AuthorsEntity, (c) => c.books)
+  @ManyToMany((type) => AuthorEntity, (c) => c.books, {
+    onDelete: 'CASCADE'
+  })
   @JoinTable()
-  authors: AuthorsEntity[];
+  authors: AuthorEntity[];
 }

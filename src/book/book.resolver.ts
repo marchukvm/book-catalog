@@ -1,32 +1,32 @@
-import { BooksEntity } from "./books.entity";
-import { BooksService } from "./books.service";
+import { BookEntity } from "./book.entity";
+import { BookService } from "./book.service";
 import { Query, Resolver, Mutation, Args } from '@nestjs/graphql';
 import { BookDto } from './dto/book-dto';
 
 @Resolver('Books')
-export class BooksResolver {
+export class BookResolver {
   constructor(
-    private readonly booksService: BooksService,
+    private readonly booksService: BookService,
   ) {};
 
   @Query()
   async getBook(
     @Args('id') id: number
-  ): Promise<BooksEntity> {
+  ): Promise<BookEntity> {
     return await this.booksService.findOne(id);
   }
 
   @Query()
   async getBooks(
     @Args('title') title: string
-  ): Promise<BooksEntity[]> {
+  ): Promise<BookEntity[]> {
     return this.booksService.findAll(title);
   }
 
   @Mutation()
   async createBook(
     @Args('book') book: BookDto
-  ): Promise<BooksEntity> {
+  ): Promise<BookEntity> {
     return this.booksService.insert(book);
   }
 
@@ -34,7 +34,7 @@ export class BooksResolver {
   async addAuthor(
     @Args('bookId') bookId: number,
     @Args('authorId') authorId: number
-  ): Promise<BooksEntity> {
+  ): Promise<BookEntity> {
     return this.booksService.addAuthor(bookId, authorId);
   }
 

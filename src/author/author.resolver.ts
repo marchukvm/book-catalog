@@ -1,18 +1,18 @@
 import { Mutation, Resolver, Query, Args } from '@nestjs/graphql';
-import { AuthorsEntity } from './authors.entity';
+import { AuthorEntity } from './author.entity';
 import { AuthorDto } from './dto/author-dto';
-import { AuthorsService } from './authors.service';
+import { AuthorService } from './author.service';
 
 @Resolver('Authors')
-export class AuthorsResolver {
+export class AuthorResolver {
   constructor(
-    private readonly authorsService: AuthorsService,
+    private readonly authorsService: AuthorService,
   ) {};
 
   @Query()
   async getAuthor(
     @Args('id') id: number
-  ): Promise<AuthorsEntity> {
+  ): Promise<AuthorEntity> {
     return this.authorsService.findOne(id);
   }
 
@@ -20,14 +20,14 @@ export class AuthorsResolver {
   async getAuthors(
     @Args('minNumberOfBooks') minNumberOfBooks: number,
     @Args('maxNumberOfBooks') maxNumberOfBooks: number
-  ): Promise<AuthorsEntity[]> {
+  ): Promise<AuthorEntity[]> {
     return this.authorsService.findAll(minNumberOfBooks, maxNumberOfBooks);
   }
 
   @Mutation()
   async createAuthor(
     @Args('author') author: AuthorDto
-  ): Promise<AuthorsEntity> {
+  ): Promise<AuthorEntity> {
     return this.authorsService.insert(author);
   }
 

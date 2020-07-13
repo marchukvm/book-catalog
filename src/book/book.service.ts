@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Like, Repository } from 'typeorm';
-import { BooksEntity } from './books.entity';
+import { BookEntity } from './book.entity';
 import { BookDto } from './dto/book-dto';
-import { AuthorsEntity } from '../authors/authors.entity';
+import { AuthorEntity } from '../author/author.entity';
 
 @Injectable()
-export class BooksService {
+export class BookService {
 
   constructor(
-    @InjectRepository(BooksEntity)
-    private readonly bookRepository: Repository<BooksEntity>,
-    @InjectRepository(AuthorsEntity)
-    private readonly authorsRepository: Repository<AuthorsEntity>
+    @InjectRepository(BookEntity)
+    private readonly bookRepository: Repository<BookEntity>,
+    @InjectRepository(AuthorEntity)
+    private readonly authorsRepository: Repository<AuthorEntity>
   ) {}
 
-  async findOne(id: number): Promise<BooksEntity> {
+  async findOne(id: number): Promise<BookEntity> {
     try {
       return await this.bookRepository.findOne(id);
     } catch (err) {
@@ -23,13 +23,12 @@ export class BooksService {
     }
   }
 
-  async findAll(title: string): Promise<BooksEntity[]> {
+  async findAll(title: string): Promise<BookEntity[]> {
     try {
       return await this.bookRepository.find({
         relations: ["authors"],
         where: {
-          // todo: need refactoring
-          title: Like(`${title ? title : ""}%`)
+          title: Like(`${title || ""}%`)
         }
       })
     } catch (err) {
@@ -37,17 +36,17 @@ export class BooksService {
     }
   }
 
-  async insert(book: BookDto): Promise<BooksEntity> {
+  async insert(book: BookDto): Promise<BookEntity> {
     try {
       const authors = await this.authorsRepository.findByIds(book.authorIds);
-      const newBook = new BooksEntity(book.title, authors);
+      const newBook = new BookEntity(book.title, authors);
       return await this.bookRepository.save(newBook, {});
     } catch (err) {
       return err;
     }
   }
 
-  async addAuthor(bookId: number, authorId: number): Promise<BooksEntity> {
+  async addAuthor(bookId: number, authorId: number): Promise<BookEntity> {
     try {
       const author = await this.authorsRepository.findOne(authorId);
       const book = await this.bookRepository.findOne(bookId, { relations: ["authors"] });
