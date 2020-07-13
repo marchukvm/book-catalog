@@ -57,7 +57,7 @@ export class BookService {
     }
   }
 
-  async delete(id: number): Promise<number> {
+  async deleteBook(id: number): Promise<number> {
     try {
       const deleteAuthorResult: DeleteResult = await this.bookRepository.delete(id);
       return deleteAuthorResult.affected;

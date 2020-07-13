@@ -16,7 +16,7 @@ export class BookResolver {
     return await this.booksService.findOne(id);
   }
 
-  @Query(returns => [Book])
+  @Query(returns => [Book], { nullable: true })
   async getBooks(
     @Args('title', { nullable: true }) title?: string
   ): Promise<Book[]> {
@@ -32,8 +32,8 @@ export class BookResolver {
 
   @Mutation(returns => Book!)
   async addAuthor(
-    @Args('bookId',  { type: () => Int }) bookId: number,
-    @Args('authorId',  { type: () => Int }) authorId: number
+    @Args('bookId',  { type: () => ID }) bookId: number,
+    @Args('authorId',  { type: () => ID }) authorId: number
   ): Promise<Book> {
     return this.booksService.addAuthor(bookId, authorId);
   }
@@ -42,6 +42,6 @@ export class BookResolver {
   async deleteBook(
     @Args('id',  { type: () => ID }) id: number
   ): Promise<number> {
-    return this.booksService.delete(id);
+    return this.booksService.deleteBook(id);
   }
 }

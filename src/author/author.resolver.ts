@@ -10,10 +10,10 @@ export class AuthorResolver {
     private readonly authorsService: AuthorService,
   ) {};
 
-  @Query(returns => Author!)
+  @Query(returns => Author!, { nullable: true })
   async getAuthor(
     @Args('id', { type: () => ID }) id: number
-  ): Promise<Author> {
+  ): Promise<Author | null> {
     return this.authorsService.findOne(id);
   }
 
@@ -36,7 +36,7 @@ export class AuthorResolver {
   async deleteAuthor(
     @Args('id',  { type: () => ID }) id: number
   ): Promise<number> {
-    return this.authorsService.delete(id);
+    return this.authorsService.deleteAuthor(id);
   }
 
   @Mutation(returns => Int!)

@@ -27,7 +27,7 @@ export class AuthorService {
       const authors = await this.authorsRepository.find();
       return authors.filter(author =>
         author.books.length >= (minNumberOfBooks || 0) &&
-        author.books.length <= (maxNumberOfBooks || Number.POSITIVE_INFINITY)
+        author.books.length <= (maxNumberOfBooks > 0 ? maxNumberOfBooks : Number.POSITIVE_INFINITY)
       );
     } catch (err) {
       return err;
@@ -43,7 +43,7 @@ export class AuthorService {
     }
   }
 
-  async delete(id: number): Promise<number> {
+  async deleteAuthor(id: number): Promise<number> {
     try {
       const deleteAuthorResult: DeleteResult = await this.authorsRepository.delete(id);
       return deleteAuthorResult.affected;
